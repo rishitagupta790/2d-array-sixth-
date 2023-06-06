@@ -1,42 +1,54 @@
 package com.in.P07;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Array_07 {
-	public static List<String> findMissingRanges(int[] nums, int lower, int upper) {
-		List<String> result = new ArrayList<>();
+	public static int[][] generateMatrix(int n) {
+		int[][] matrix = new int[n][n];
+		int top = 0;
+		int bottom = n - 1;
+		int left = 0;
+		int right = n - 1;
+		int num = 1;
 
-		int next = lower;
-
-		for (int num : nums) {
-			if (num > next) {
-				result.add(formatRange(next, num - 1));
+		while (num <= n * n) {
+			// Fill the top row
+			for (int i = left; i <= right; i++) {
+				matrix[top][i] = num++;
 			}
-			next = num + 1;
+			top++;
+
+			// Fill the right column
+			for (int i = top; i <= bottom; i++) {
+				matrix[i][right] = num++;
+			}
+			right--;
+
+			// Fill the bottom row
+			for (int i = right; i >= left; i--) {
+				matrix[bottom][i] = num++;
+			}
+			bottom--;
+
+			// Fill the left column
+			for (int i = bottom; i >= top; i--) {
+				matrix[i][left] = num++;
+			}
+			left++;
 		}
 
-		if (next <= upper) {
-			result.add(formatRange(next, upper));
-		}
-
-		return result;
-	}
-
-	private static String formatRange(int start, int end) {
-		if (start == end) {
-			return String.valueOf(start);
-		} else {
-			return start + "->" + end;
-		}
+		return matrix;
 	}
 
 	public static void main(String[] args) {
-		int[] nums = {0, 1, 3, 50, 75};
-        int lower = 0;
-        int upper = 99;
-        List<String> result = findMissingRanges(nums, lower, upper);
-        System.out.println(result);
+		int n = 4;
+        int[][] matrix = generateMatrix(n);
+
+        System.out.println("Generated Spiral Matrix:");
+        for (int[] row : matrix) {
+            for (int num : row) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
 	}
 
 }

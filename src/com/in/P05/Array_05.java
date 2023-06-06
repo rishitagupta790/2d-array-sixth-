@@ -3,36 +3,25 @@ package com.in.P05;
 import java.util.Arrays;
 
 public class Array_05 {
-	public static int[] plusOne(int[] digits) {
-		int n = digits.length;
-		int carry = 1;
+	public static int minProductSum(int[] nums1, int[] nums2) {
+		Arrays.sort(nums1);
+		Arrays.sort(nums2);
 
-		for (int i = n - 1; i >= 0; i--) {
-			digits[i] += carry;
+		int n = nums1.length;
+		int productSum = 0;
 
-			if (digits[i] == 10) {
-				digits[i] = 0;
-				carry = 1;
-			} else {
-				carry = 0;
-				break;
-			}
+		for (int i = 0; i < n; i++) {
+			productSum += nums1[i] * nums2[n - 1 - i];
 		}
 
-		if (carry == 1) {
-			int[] result = new int[n + 1];
-			result[0] = 1;
-			return result;
-		}
-
-		return digits;
+		return productSum;
 	}
 
 	public static void main(String[] args) {
-
-		int[] digits = { 1, 2, 3 };
-		int[] result = plusOne(digits);
-		System.out.println(Arrays.toString(result));
+		int[] nums1 = { 5, 3, 4, 2 };
+		int[] nums2 = { 4, 2, 2, 5 };
+		int minProductSum = minProductSum(nums1, nums2);
+		System.out.println(minProductSum);
 	}
 
 }

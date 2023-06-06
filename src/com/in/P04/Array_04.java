@@ -1,30 +1,37 @@
 package com.in.P04;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Array_04 {
-	public static int searchInsert(int[] nums, int target) {
-		int left = 0;
-		int right = nums.length - 1;
+	public static int findMaxLength(int[] nums) {
+		int maxLength = 0;
+		int count = 0;
+		Map<Integer, Integer> countMap = new HashMap<>();
+		countMap.put(0, -1);
 
-		while (left <= right) {
-			int mid = left + (right - left) / 2;
-
-			if (nums[mid] == target) {
-				return mid;
-			} else if (nums[mid] < target) {
-				left = mid + 1;
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] == 0) {
+				count++;
 			} else {
-				right = mid - 1;
+				count--;
+			}
+
+			if (countMap.containsKey(count)) {
+				int prevIndex = countMap.get(count);
+				maxLength = Math.max(maxLength, i - prevIndex);
+			} else {
+				countMap.put(count, i);
 			}
 		}
 
-		return left;
+		return maxLength;
 	}
 
 	public static void main(String[] args) {
-		int[] nums = { 1, 3, 5, 6 };
-		int target = 5;
-		int insertIndex = searchInsert(nums, target);
-		System.out.println("Insert Index: " + insertIndex);
+		int[] nums = { 0, 1 };
+		int maxLength = findMaxLength(nums);
+		System.out.println(maxLength);
 	}
 
 }

@@ -1,65 +1,35 @@
 package com.in.P02;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Array_02 {
+	public static boolean searchMatrix(int[][] matrix, int target) {
+		int m = matrix.length;
+		int n = matrix[0].length;
 
-	public static List<List<Integer>> fourSum(int[] nums, int target) {
-		Arrays.sort(nums);
-		List<List<Integer>> result = new ArrayList<>();
+		int left = 0;
+		int right = m * n - 1;
 
-		for (int i = 0; i < nums.length - 3; i++) {
-			if (i > 0 && nums[i] == nums[i - 1]) {
-				continue; // Skip duplicates for the first element
-			}
+		while (left <= right) {
+			int mid = left + (right - left) / 2;
+			int midValue = matrix[mid / n][mid % n];
 
-			for (int j = i + 1; j < nums.length - 2; j++) {
-				if (j > i + 1 && nums[j] == nums[j - 1]) {
-					continue; // Skip duplicates for the second element
-				}
-
-				int left = j + 1;
-				int right = nums.length - 1;
-
-				while (left < right) {
-					int sum = nums[i] + nums[j] + nums[left] + nums[right];
-					if (sum == target) {
-						result.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
-
-						// Skip duplicates for the third element
-						while (left < right && nums[left] == nums[left + 1]) {
-							left++;
-						}
-
-						// Skip duplicates for the fourth element
-						while (left < right && nums[right] == nums[right - 1]) {
-							right--;
-						}
-
-						left++;
-						right--;
-					} else if (sum < target) {
-						left++; // Sum is smaller, move left pointer to increase sum
-					} else {
-						right--; // Sum is larger, move right pointer to decrease sum
-					}
-				}
+			if (midValue == target) {
+				return true;
+			} else if (midValue < target) {
+				left = mid + 1;
+			} else {
+				right = mid - 1;
 			}
 		}
 
-		return result;
+		return false;
 	}
 
 	public static void main(String[] args) {
-		int[] nums = { 1, 0, -1, 0, -2, 2 };
-		int target = 0;
-		List<List<Integer>> quadruplets = fourSum(nums, target);
-		System.out.println("Unique Quadruplets:");
-		for (List<Integer> quad : quadruplets) {
-			System.out.println(quad);
-		}
+		int[][] matrix = { { 1, 3, 5, 7 }, { 10, 11, 16, 20 }, { 23, 30, 34, 60 } };
+		int target = 3;
+
+		boolean found = searchMatrix(matrix, target);
+		System.out.println(found);
 	}
 
 }
